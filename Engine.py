@@ -26,20 +26,6 @@ class PuzzleEngine:
         else:
             return False
 
-    def Move(self, board, direction):
-        r, c = self.FindZero(board)
-
-        if not self.CanMove((r, c), direction):
-            return False 
-
-        dr, dc = self.moves[direction]
-        next_r = r + dr
-        next_c = c + dc
-
-        board[r][c], board[next_r][next_c] = board[next_r][next_c], board[r][c]
-
-        return True
-
     def CheckWin(self, current_board, goal_board):
         if current_board == goal_board:
             return True
@@ -53,14 +39,14 @@ class PuzzleEngine:
                     return (r, c)
         return None
 
-    def MoveByNumber(self, board, target):
-        target_pos = self.FindNumber(board, target)
-        if target_pos is None:
+    def Move(self, board, target):
+        target = self.FindNumber(board, target)
+        if target is None:
             return False
 
-        zero_pos = self.FindZero(board)
-        tr, tc = target_pos
-        zr, zc = zero_pos
+        zero = self.FindZero(board)
+        tr, tc = target
+        zr, zc = zero
 
         if abs(tr - zr) + abs(tc - zc) == 1:
             board[zr][zc], board[tr][tc] = board[tr][tc], board[zr][zc]
